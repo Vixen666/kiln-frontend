@@ -1,0 +1,27 @@
+ try {
+            // Placeholder for your API call
+            const response = await fetch(`${config.apiUrl}/Burn_notes_Api_Insert`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ note_text: content}),
+            });
+            if (!response.ok) {
+                const errorBody = await response.json(); // Parse the JSON body of the response to get the error message
+                let errorMessage = errorBody.error || 'Failed to save note'; // Use the server's error message if available
+                
+                // If there are missing parameters, append them to the error message
+                if (errorBody.missing && errorBody.missing.length) {
+                    errorMessage += ` ${errorBody.missing.join(', ')}`;
+                }
+                
+                throw new Error(errorMessage); // Throw an error with the detailed message
+            }
+            const data = await response.json();
+
+            // Update note status upon successful save
+            setNotes(prevNotes => prevNotes.map(note =>
+                note.id === id ? { ...note, isSaved: true } : note
+            ));
+        } catch (error) {
+            showSnackbar(' ' + error, 'ERROR');
+        }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Number SocketIO</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io.connect('http://192.168.0.21:5000/test');
+        socket.on('connect', function() {
+            socket.emit('my event', {data: 'I\'m connected!'});
+        });
+
+        socket.on('newnumber', function(msg) {
+            document.getElementById("random_number").innerHTML = 'Random Number: ' + msg.number;
+            console.log(msg)
+        });
+    </script>
+</head>
+<body>
+    <h1>Random Number Generator</h1>
+    <div id="random_number">Random Number: N/A</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.tempChangeNormal {
+  color: black; /* Default color for normal */
+}
+
+.tempChangeTooFast {
+  color: red; /* Red color for too fast */
+  font-weight: bold; /* Optional: make it bold */
+}
+
+.tempChangeTooSlow {
+  color: blue; /* Blue color for too slow */
+  font-weight: bold; /* Optional: make it bold */
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: green;
+  padding: 20px;
+  z-index: 1000;
+  /* Add more styling as per your design */
+}
+.ovenSelectionSummary {
+  cursor: pointer;
+  color: blue;
+  /* Add more styling as per your design */
+}
+
+/* Table Styles */
+.table-responsive {
+  overflow-x: auto; /* Allows table to scroll horizontally on small screens */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Collapses border spacings */
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd; /* Adds border to cells */
+  padding: 8px; /* Padding inside cells */
+  text-align: left; /* Aligns text to the left */
+}
+
+/* Zebra Striping for Rows */
+.table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light gray color for even rows */
+}
+
+/* Header Styles */
+.table th {
+  background-color: #4caf50; /* Darker color for the header */
+  color: white; /* White text for header */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .table td {
+    padding: 10px 5px; /* Smaller padding on small screens */
+  }
+}
