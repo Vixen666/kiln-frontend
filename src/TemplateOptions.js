@@ -5,6 +5,7 @@ import {
   CardContent,
   Typography,
   CardActionArea,
+  CardHeader,
   Paper,
   IconButton,
 } from "@mui/material";
@@ -82,32 +83,29 @@ function TemplateOptions() {
         <Grid container spacing={2} justifyContent="center">
           {templates &&
             templates.map((template) => (
-              <Grid item xs={12} sm={6} md={2} key={template.template_id}>
+              <Grid item xs={12} sm={12} md={12} key={template.template_id}>
                 <Card
-                  style={cardStyle}
+                  variant="outlined"
+                  style={{ ...cardStyle, flexDirection: "column" }}
                   onClick={() => handleTemplateSelect(template.template_id)}
                 >
-                  <CardActionArea>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {template.name}
-                      </Typography>
-                      <Typography gutterBottom variant="h6" component="h2">
-                        {template.date_created}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                  <CardHeader
+                  title={template.name}
+                    titleTypographyProps={{ variant: "h6" }}
+                    style={{ paddingBottom: 0, paddingTop: 0 }}>
+                    
+                  </CardHeader>
                 </Card>
               </Grid>
             ))}
-          <Grid item xs={12} sm={6} md={2}>
+          <Grid item xs={12} sm={12} md={12}>
             <Card
               variant="outlined"
               style={cardStyle}
               onClick={handleNewTemplate}
             >
-              <IconButton color="primary" aria-label="add new oven">
-                <AddCircleOutlineIcon style={{ fontSize: 160 }} />
+              <IconButton color="primary" aria-label="add new oven" style={{ paddingBottom: 0, paddingTop: 0 }}>
+                <AddCircleOutlineIcon style={{ fontSize: 30 }} />
               </IconButton>
             </Card>
           </Grid>

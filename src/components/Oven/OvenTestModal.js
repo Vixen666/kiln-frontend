@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Modal, Typography, Switch } from "@mui/material";
 import { io } from "socket.io-client";
-
+import config from '../../config';
 function OvenTestModal({ open, handleClose, ovenId }) {
   const [temperature, setTemperature] = useState(0);
   const [hatchet, setHatchet] = useState("");
 
   const testTemperature = async () => {
     try {
-      const response = await fetch('http://192.168.0.21:5000/test_temp', {
+      const response = await fetch(`${config.apiUrl}/api/test_temp`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -31,7 +31,7 @@ function OvenTestModal({ open, handleClose, ovenId }) {
 
   const testHatchet = async () => {
     try {
-      const response = await fetch('http://192.168.0.21:5000/test_hatchet', {
+      const response = await fetch(`${config.apiUrl}/api/test_hatchet`, {
         method: 'POST', // Changed from GET to POST
         headers: {
           'Accept': 'application/json',
@@ -53,7 +53,7 @@ function OvenTestModal({ open, handleClose, ovenId }) {
   
   const testOutputs = async () => {
     try {
-      const response = await fetch('http://192.168.0.21:5000/test_outputs', {
+      const response = await fetch(`${config.apiUrl}/api/test_outputs`, {
         method: 'POST', // Changed from GET to POST
         headers: {
           'Accept': 'application/json',

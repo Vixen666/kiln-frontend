@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage"; // Your main page component
 import OvenSelection from "./components/Oven/OvenSelection"; // Component for editing ovens
 import TemplateOptions from "./TemplateOptions"; // Component for editing templates
-import BurnPage from "./components/Burn/BurnPage"; // Component for editing templates
+import CreateBurn from "./components/Burn/CreateBurn"; // Component for editing templates
 import BurnHistoryPage from "./components/Burn/BurnHistoryPage"; // Component for editing templates
 import BurnSettingsPage from "./components/Burn/BurnSettingsPage"; // Component for editing templates
 import SettingsPage from "./components/settings/SettingsPage"; // Component for editing templates
@@ -28,7 +28,7 @@ function App() {
           <Route path="/home-page" element={<HomePage />} />
           <Route path="/oven-page" element={<OvenSelection />} />
           <Route path="/template-page" element={<TemplateOptions />} />
-          <Route path="/create-burn" element={<BurnPage />} />
+          <Route path="/create-burn" element={<CreateBurn />} />
           <Route
             path="/burns"
             element={<BurnHistoryPage/>}

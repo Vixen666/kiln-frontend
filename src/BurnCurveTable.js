@@ -112,12 +112,12 @@ function BurnCurveTable() {
                   </TableCell>
                   <TableCell>{data.tempChangePerMinute}</TableCell>
                   <TableCell>{data.tempChangePerMinute*60}</TableCell>
-                  <TableCell>
-                    <IconButton onClick={() => handleDelete(data.sequence)}>
-                      <DeleteIcon />
+                  <TableCell colSpan={2}>
+                    <IconButton  onClick={() => handleDelete(data.sequence)}>
+                      <DeleteIcon style={{ fontSize: 30 }}/>
                     </IconButton>
                     <IconButton onClick={() => handleDuplicate(index)}>
-                      <CopyIcon />
+                      <CopyIcon style={{ fontSize: 30 }}/>
                     </IconButton>
                   </TableCell>
                 </TableRow>

@@ -14,6 +14,7 @@ export const SnackbarProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("SnackbarProvider useEffect running");
+    return;
     if (snackPack.length && !messageInfo) {
       setMessageInfo({ ...snackPack[0] });
       setSnackPack((prev) => prev.slice(1));
