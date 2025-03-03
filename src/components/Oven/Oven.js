@@ -72,9 +72,6 @@ function Oven({ oven }) {
               label="Pid_kp"
               type="number"
               fullWidth
-              variant="outlined"
-              defaultValue="25"
-              inputProps={{ maxLength: undefined }}
               onChange={handleChange("pid_kp")}
             />
           </Grid>
@@ -203,7 +200,7 @@ function Oven({ oven }) {
         style={{ padding: "20px", marginBottom: "20px", marginTop: "20px" }}
       >
         <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={4}>
             <TextField
               key={`field-${{ oven }.id}-gpio_heat`}
               margin="dense"
@@ -217,7 +214,7 @@ function Oven({ oven }) {
               onChange={handleChange("gpio_heat")}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6} md={4}>
             {" "}
             <TextField
               key={`field-${{ oven }.id}-gpio_cool`}
@@ -230,6 +227,20 @@ function Oven({ oven }) {
               variant="outlined"
               defaultValue="NULL"
               onChange={handleChange("gpio_cool")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              key={`field-${{ oven }.id}-gpio_failsafe`}
+              margin="dense"
+              name="gpio_failsafe"
+              value={oven.gpio_failsafe}
+              label="gpio_failsafe"
+              type="number"
+              fullWidth
+              variant="outlined"
+              defaultValue="NULL"
+              onChange={handleChange("gpio_failsafe")}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
@@ -354,6 +365,7 @@ function Oven({ oven }) {
           variant="outlined"
           defaultValue="'c'"
           inputProps={{ maxLength: 1 }}
+          onChange={handleChange("temp_scale")}
         />
 
         <TextField
@@ -367,20 +379,21 @@ function Oven({ oven }) {
           variant="outlined"
           defaultValue="1500"
           inputProps={{ maxLength: undefined }}
+          onChange={handleChange("emergency_shutoff_temp")}
         />
-
-        <FormControlLabel
-          key={`field-${{ oven }.id}-kiln_must_catch_up`}
-          name="kiln_must_catch_up"
-          control={
-            <Checkbox
-              name={oven.kiln_must_catch_up}
-              color="primary"
-              defaultChecked
-            />
-          }
-          label="Kiln_must_catch_up"
-        />
+<FormControlLabel
+  key={`field-${oven.id}-kiln_must_catch_up`}
+  name="kiln_must_catch_up"
+  control={
+    <Checkbox
+      name="kiln_must_catch_up"
+      color="primary"
+      checked={oven.kiln_must_catch_up === 1} // This checks if the value is 1 (checked)
+      onChange={handleChange("kiln_must_catch_up")}
+    />
+  }
+  label="Kiln_must_catch_up"
+/>
 
         <TextField
           key={`field-${{ oven }.id}-thermocouple_offset`}
@@ -393,13 +406,15 @@ function Oven({ oven }) {
           variant="outlined"
           defaultValue="0"
           inputProps={{ maxLength: undefined }}
+          onChange={handleChange("thermocouple_offset")}
         />
 
         <FormControlLabel
           key={`field-${{ oven }.id}-ac_freq_50hz`}
           name="ac_freq_50hz"
-          control={<Checkbox name={oven.ac_freq_50hz} color="primary" />}
+          control={<Checkbox name={oven.ac_freq_50hz} color="primary" checked={oven.ac_freq_50hz === 1}/>}
           label="Ac_freq_50hz"
+          onChange={handleChange("ac_freq_50hz")}
         />
 
         <FormControlLabel
@@ -409,7 +424,8 @@ function Oven({ oven }) {
             <Checkbox
               name={oven.automatic_restarts}
               color="primary"
-              defaultChecked
+              checked={oven.automatic_restarts === 1}
+              onChange={handleChange("automatic_restarts")}
             />
           }
           label="Automatic_restarts"
@@ -426,6 +442,7 @@ function Oven({ oven }) {
           variant="outlined"
           defaultValue="15"
           inputProps={{ maxLength: undefined }}
+          onChange={handleChange("automatic_restart_window")}
         />
       </Paper>
 

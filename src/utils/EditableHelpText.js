@@ -5,10 +5,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
 import "react-quill/dist/quill.bubble.css"; // Import Quill styles
 import { setTranslation, updateTranslation } from "./../store/translationSlice";
-
+import useTranslation from "./useTranslation";
+import {
+  Button,
+} from "@mui/material";
 const EditableHelpText = ({ field }) => {
   const dispatch = useDispatch();
-
+  const save_helpfield = useTranslation("save_helpfield")
   const showHelpFields = useSelector((state) => state.settings.showHelpFields);
 
   const selectedLanguage = useSelector(
@@ -59,11 +62,14 @@ const EditableHelpText = ({ field }) => {
         theme={theme}
         readOnly={showHelpFields === "READONLY"}
       />
-      {showHelpFields === "READONLY" ? null : isEditing ? (
-        <button onClick={handleSaveClick}>Save</button>
+      {showHelpFields === "YES" ? (
+        <Button variant="contained" onClick={handleSaveClick}>{save_helpfield}</Button>
       ) : null}
+      
     </div>
   );
 };
 
 export default EditableHelpText;
+
+
