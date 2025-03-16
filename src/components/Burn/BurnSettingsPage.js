@@ -111,10 +111,10 @@ function BurnSettingsPage() {
         linkedTo: 0, // Link this axis to the primary axis
         labels: {
           formatter: function () {
-            return (this.value / 60).toFixed(1) + "h"; // Convert minutes to hours
+            return (this.value / 60/60).toFixed(1) + "h"; // Convert minutes to hours
           },
         },
-        tickInterval: 60, // One tick per hour (60 minutes)
+        tickInterval: 10, // One tick per hour (60 minutes)
       },
     ],
     yAxis: {
