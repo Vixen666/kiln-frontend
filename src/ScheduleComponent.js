@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { TextField, Grid, Paper, Button } from "@mui/material";
 import { useDispatch } from 'react-redux';
-import { startReal } from './store/scheduleSlice';
-
+import { startReal, stopReal } from './store/scheduleSlice';
+import {  fetchCurrentStatus } from "./store/burnSlice";
+import { useSelector } from "react-redux";
 function ScheduleComponent() {
     const dispatch = useDispatch();
-  
+    const parameters = useSelector(
+      (state) => state.burn.data.selected.parameters
+    ); // Replace 'burnslice' with the actual slice name
     const handleStartBurn = () => {
       dispatch(startReal());
+    };
+
+    const handleStopBurn = () => {
+      dispatch(stopReal());
     };
   // Calculate default values
   const defaultDate = new Date().toISOString().split("T")[0]; // Current date in YYYY-MM-DD format
@@ -19,6 +26,19 @@ function ScheduleComponent() {
   const [date, setDate] = useState(defaultDate);
   const [time, setTime] = useState(defaultTime);
   const [confirmed, setConfirmed] = useState(false);
+  const intervalRef = useRef(null);
+  useEffect(() => {
+    fetchCurrentStatus();
+    if (parameters && parameters.burn_id) {
+      // Fetch temperature data every 10 seconds
+      intervalRef.current = setInterval(() => {
+        dispatch(fetchCurrentStatus());
+      }, 10000);
+
+      // Clean up interval on component unmount
+      return () => clearInterval(intervalRef.current);
+    }
+  }, [parameters]);
 
   // Handle changes
   const handleDateChange = (event) => {
@@ -42,6 +62,8 @@ function ScheduleComponent() {
   return (
     <Paper elevation={3} style={{ marginTop: "20px", padding: "20px" }}>
       <Grid container spacing={2}>
+        
+        {/*
         <Grid item xs={4}>
           <TextField
             label="Date"
@@ -71,20 +93,7 @@ function ScheduleComponent() {
             disabled={confirmed}
           />
         </Grid>
-        <Grid item xs={4}>
-          {confirmed && (
-            <Button
-              variant="contained"
-              component="label" // Allows the button to act as a label for the hidden file input
-              style={{ marginTop: "10px" }}
-              onClick={removeSchedule}
-            >
-              Remove Schedule
-            </Button>
-          )}
-          {!confirmed && (
-            <>
-              <Button
+        <Button
                 variant="contained"
                 component="label" // Allows the button to act as a label for the hidden file input
                 style={{ marginTop: "10px" }}
@@ -92,16 +101,31 @@ function ScheduleComponent() {
               >
                 Confirm Schedule
               </Button>
+        */}
+        
+        <Grid item xs={4}>
               <Button
                 variant="contained"
                 component="label" // Allows the button to act as a label for the hidden file input
-                style={{ marginTop: "10px", marginLeft: "10px"}}
+                style={{ marginLeft: "10px"}}
                 onClick={handleStartBurn}
+                disabled={parameters.status !== "Preparing"}
               >
                 Start Burn Now
               </Button>
-            </>
-          )}
+              <Button
+                variant="contained"
+                component="label" // Allows the button to act as a label for the hidden file input
+                style={{ marginLeft: "10px"}}
+                onClick={handleStopBurn}
+              >
+                Stop Burn Now
+              </Button>
+            
+          
+        </Grid>
+        <Grid item xs={4}>
+          {parameters && parameters.status}
         </Grid>
       </Grid>
     </Paper>

@@ -56,7 +56,7 @@ const BurnLogs = () => {
                 .sort((a, b) => b.sequence - a.sequence)
                 .map((log, index) => (
                   <TableRow key={index}>
-                    <TableCell>{log.timestamp}</TableCell>
+                    <TableCell> {new Date(log.timestamp).toLocaleString("sv-SE")}</TableCell>
                     <TableCell>{log.runtime}</TableCell>
                     <TableCell>{log.sequence}</TableCell>
                     <TableCell>{log.setpoint}</TableCell>

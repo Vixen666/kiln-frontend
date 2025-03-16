@@ -103,6 +103,30 @@ export const fetchTemplateData = createAsyncThunk(
       }
     }
   );
+
+  export const fetchCurrentStatus = createAsyncThunk(
+    'burn/fetchCurrentStatus',
+    async (_, { getState, rejectWithValue }) => {
+      const state = getState();
+      const burnId = state.burn.data.selected.burnId;
+      
+      if (!burnId) {
+        return rejectWithValue('No burn ID found in selected burn.');
+      }
+  
+      const url = `${config.apiUrl}/api/BurnService/Get_By_Burn_Id?p_burn_id=${burnId}`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        return rejectWithValue('Network problem while fetching template data.');
+      }
+    }
+  );
   
   const burnSlice = createSlice({
     name: 'burn',
@@ -185,7 +209,20 @@ export const fetchTemplateData = createAsyncThunk(
         .addCase(fetchBurnLogs.rejected, (state, action) => {
           state.status = 'failed';
           state.error = action.error.message;
+        })
+        .addCase(fetchCurrentStatus.pending, (state) => {
+          state.status = 'loading';
+        })
+        .addCase(fetchCurrentStatus.fulfilled, (state, action) => {
+          state.data.selected.parameters.status = action.payload[0].status;
+          state.status = 'succeeded';
+        })
+        .addCase(fetchCurrentStatus.rejected, (state, action) => {
+          state.status = 'failed';
+          state.error = action.error.message;
         });
+
+        
     },
   });
   

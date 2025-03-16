@@ -33,7 +33,9 @@ export const startReal = createAsyncThunk(
 
 export const stopReal = createAsyncThunk(
     'schedule/stopReal',
-    async (burn_id, { rejectWithValue }) => {
+    async (_, {getState,  rejectWithValue }) => {
+      const state = getState();
+      const burnId = state.burn.data.selected.burnId;
       const url = `${config.apiUrl}/api/stop_real`;
       try {
         const response = await fetch(url, {
@@ -41,7 +43,7 @@ export const stopReal = createAsyncThunk(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ burn_id }),
+          body: JSON.stringify({ burnId }),
         });
   
         if (!response.ok) {

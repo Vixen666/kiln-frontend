@@ -57,7 +57,7 @@ function BurnSettingsPage() {
       // Fetch temperature data every 10 seconds
       intervalRef.current = setInterval(() => {
         fetchBurnTemperatureData();
-      }, 100000);
+      }, 6000);
 
       // Clean up interval on component unmount
       return () => clearInterval(intervalRef.current);
@@ -70,31 +70,27 @@ function BurnSettingsPage() {
   const chartData = [];
   const zones = [];
   let cumulativeDuration = 0;
-  let previousPoint = null;
-
+  
   selected.templateData.forEach((point, index) => {
-    cumulativeDuration += point.time;
-    chartData.push([cumulativeDuration, point.temperature]);
-
-    if (previousPoint) {
-      const tempChangePerMinute =
-        (point.temperature - previousPoint.temperature) /
-        (cumulativeDuration - previousPoint.cumulativeDuration);
-      const color =
-        tempChangePerMinute > 0
-          ? "red"
-          : tempChangePerMinute < 0
-          ? "blue"
-          : "green";
-
-      zones.push({
-        value: chartData[index][0], // x-axis value where the zone change occurs
-        color: color,
-      });
+    if (index === 0) {
+      chartData.push([cumulativeDuration, point.temperature]);
+      return;
     }
-
-    previousPoint = { cumulativeDuration, temperature: point.temperature };
+  
+    let prevPoint = selected.templateData[index - 1];
+    let timeDiff = point.time * 60; // Convert minutes to seconds
+    let tempDiff = point.temperature - prevPoint.temperature;
+  
+    for (let i = 1; i <= timeDiff; i++) {
+      let interpolatedTime = cumulativeDuration + i;
+      let interpolatedTemp = prevPoint.temperature + (tempDiff / timeDiff) * i;
+      
+      chartData.push([interpolatedTime, interpolatedTemp]);
+    }
+  
+    cumulativeDuration += timeDiff; // Increase by seconds now
   });
+  
   const options = {
     title: {
       text: "",
@@ -175,7 +171,7 @@ function BurnSettingsPage() {
       {
         name: "Current Temperature",
         data: selected.temperatureData.map((point) => [
-          point.runtime / 60,
+          Math.round(point.runtime), 
           point.ispoint,
           point.heat_on,
         ]),
@@ -195,11 +191,13 @@ function BurnSettingsPage() {
 
   return (
     <>
-      <Paper>
+
+      <ScheduleComponent />
+      <Paper elevation={3} style={{ marginTop: "20px", padding: "20px" }}>
         {/* Render your burn settings UI here */}
         <BurnCurveChart options={options} />
       </Paper>
-      <ScheduleComponent />
+
       <BurnNotes burnId={selected.burnId} />
       <BurnLogs />
       <BurnParameters />

@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { updateOvenField, saveOven, fetchOvens } from "../../store/ovenSlice";
-import useApiFetcher from "../../utils/apiUtils";
 import EditableHelpText from "./../../utils/EditableHelpText";
 import OvenTestModal from "./OvenTestModal";
 function Oven({ oven }) {
@@ -128,8 +127,8 @@ function Oven({ oven }) {
                 onChange={handleChange("thermocouple_type")}
               >
                 <option aria-label="None" value="" />
-                <option value="MAX3155">MAX3155</option>
-                <option value="MAX3166">MAX3166</option>
+                <option value="MAX31855">MAX31855</option>
+                <option value="MAX31856">MAX31856</option>
                 <option value="DHT11">DHT11</option>
                 <option value="DHT22">DHT22</option>
                 <option value="DS1820">DS1820</option>

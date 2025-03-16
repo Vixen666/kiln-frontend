@@ -39,13 +39,12 @@ function BurnNotes({ burnId }) {
                 throw new Error(errorMessage); // Throw an error with the detailed message
             }
             const data = await response.json();
-            showSnackbar('Notes saved!', 'SUCCESS');
             // Update note status upon successful save
             setNotes(prevNotes => prevNotes.map(note =>
                 note.id === id ? { ...note, isSaved: true } : note
             ));
         } catch (error) {
-            showSnackbar(' ' + error, 'ERROR');
+            console.log(error)
         }
     }, 2000), []); // 2000 ms = 2 seconds delay
 
@@ -60,7 +59,7 @@ function BurnNotes({ burnId }) {
     useEffect(() => {
         const fetchNotes = async () => {
             try {
-                const response = await fetch(`${config.apiUrl}/api/BurnNotesService/Get_By_Brun_Id?p_burn_id=${burnId}`);
+                const response = await fetch(`${config.apiUrl}/api/BurnNotesService/Get_By_Burn_Id?p_burn_id=${burnId}`);
                 if (!response.ok) throw new Error('Failed to fetch notes');
 
                 const fetchedNotes = await response.json();
@@ -86,7 +85,7 @@ function BurnNotes({ burnId }) {
             {notes&& notes.map((note, index) => (
                 <Grid container spacing={2} key={index} alignItems="center">
                     <Grid item xs={3}>
-                        <Typography>{new Date(note.date).toLocaleString()}</Typography>
+                        <Typography>{new Date(note.date).toLocaleString("sv-SE")}</Typography>
                     </Grid>
                     <Grid item xs={8}>
                         <TextField
