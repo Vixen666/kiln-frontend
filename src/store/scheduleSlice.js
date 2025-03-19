@@ -43,7 +43,7 @@ export const stopReal = createAsyncThunk(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ burnId }),
+          body: JSON.stringify({ burn_id: burnId }),
         });
   
         if (!response.ok) {
@@ -77,7 +77,19 @@ const scheduleSlice = createSlice({
       .addCase(startReal.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
-      });
+      })
+      .addCase(stopReal.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(stopReal.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Handle successful start if needed
+      })
+      .addCase(stopReal.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      ;
   },
 });
 

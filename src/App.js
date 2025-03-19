@@ -22,6 +22,8 @@ function App() {
       >
         <NavigationTabs />
       </AppBar>
+
+      
       <Box sx={{ backgroundColor: "grey.400", minHeight: "100vh", padding: 2 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />

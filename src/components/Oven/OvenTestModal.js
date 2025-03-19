@@ -118,7 +118,7 @@ function OvenTestModal({ open, handleClose, ovenId }) {
         </Box>
 
         <Box mt={2}>
-          <Typography variant="body1">Switching between ON and OFF for 10s. Then Mainswitch off</Typography>
+          <Typography variant="body1">Test output, cool for 30s</Typography>
           <Button
             variant="contained"
             color="primary"

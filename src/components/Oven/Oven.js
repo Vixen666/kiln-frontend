@@ -17,6 +17,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { updateOvenField, saveOven, fetchOvens } from "../../store/ovenSlice";
 import EditableHelpText from "./../../utils/EditableHelpText";
 import OvenTestModal from "./OvenTestModal";
+import useTranslation from "../../utils/useTranslation";
 function Oven({ oven }) {
   const dispatch = useDispatch();
   const [showSaveButton, setShowSaveButton] = useState(false);
@@ -24,6 +25,7 @@ function Oven({ oven }) {
   const selectedOven = useSelector((state) => state.oven.selectedOven);
 
   const handleChange = (field) => (event) => {
+    console.log(event.target)
     const value =
       event.target.type === "checkbox"
         ? event.target.checked
@@ -68,7 +70,7 @@ function Oven({ oven }) {
               margin="dense"
               name="pid_kp"
               value={oven.pid_kp}
-              label="Pid_kp"
+              label={useTranslation("Pid_kp")}
               type="number"
               fullWidth
               onChange={handleChange("pid_kp")}
@@ -275,6 +277,9 @@ function Oven({ oven }) {
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <EditableHelpText field="gpio_help" />
+          </Grid>
         </Grid>
       </Paper>
 
@@ -306,143 +311,170 @@ function Oven({ oven }) {
           onChange={handleChange("location")}
         />
       </Paper>
+
       <Paper
         elevation={15}
         style={{ padding: "20px", marginBottom: "20px", marginTop: "20px" }}
       >
-        <TextField
-          key={`field-${{ oven }.id}-sensor_time_wait`}
-          margin="dense"
-          name="sensor_time_wait"
-          value={oven.sensor_time_wait}
-          label="Sensor_time_wait"
-          type="number"
-          fullWidth
-          variant="outlined"
-          defaultValue="2"
-          onChange={handleChange("sensor_time_wait")}
-        />
-        <TextField
-          key={`field-${{ oven }.id}-pid_control_window`}
-          margin="dense"
-          name="pid_control_window"
-          value={oven.pid_control_window}
-          label="Pid_control_window"
-          type="number"
-          fullWidth
-          variant="outlined"
-          defaultValue="5"
-          onChange={handleChange("pid_control_window")}
-        />
-
-        <TextField
-          key={`field-${{ oven }.id}-temperature_average_samples`}
-          margin="dense"
-          name="temperature_average_samples"
-          value={oven.temperature_average_samples}
-          label="Temperature_average_samples"
-          type="number"
-          fullWidth
-          variant="outlined"
-          defaultValue="40"
-          onChange={handleChange("temperature_average_samples")}
-        />
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              key={`field-${{ oven }.id}-sensor_time_wait`}
+              margin="dense"
+              name="sensor_time_wait"
+              value={oven.sensor_time_wait}
+              label="Sensor_time_wait"
+              type="number"
+              fullWidth
+              variant="outlined"
+              defaultValue="2"
+              onChange={handleChange("sensor_time_wait")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              key={`field-${{ oven }.id}-pid_control_window`}
+              margin="dense"
+              name="pid_control_window"
+              value={oven.pid_control_window}
+              label="Pid_control_window"
+              type="number"
+              fullWidth
+              variant="outlined"
+              defaultValue="5"
+              onChange={handleChange("pid_control_window")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextField
+              key={`field-${{ oven }.id}-temperature_average_samples`}
+              margin="dense"
+              name="temperature_average_samples"
+              value={oven.temperature_average_samples}
+              label="Temperature_average_samples"
+              type="number"
+              fullWidth
+              variant="outlined"
+              onChange={handleChange("temperature_average_samples")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <EditableHelpText field="control_help" />
+          </Grid>
+        </Grid>
       </Paper>
 
       <Paper
         elevation={15}
         style={{ padding: "20px", marginBottom: "20px", marginTop: "20px" }}
       >
-        <TextField
-          key={`field-${{ oven }.id}-temp_scale`}
-          margin="dense"
-          name="temp_scale"
-          value={oven.temp_scale}
-          label="Temp_scale"
-          type="text"
-          fullWidth
-          variant="outlined"
-          defaultValue="'c'"
-          inputProps={{ maxLength: 1 }}
-          onChange={handleChange("temp_scale")}
-        />
-
-        <TextField
-          key={`field-${{ oven }.id}-emergency_shutoff_temp`}
-          margin="dense"
-          name="emergency_shutoff_temp"
-          value={oven.emergency_shutoff_temp}
-          label="Emergency_shutoff_temp"
-          type="number"
-          fullWidth
-          variant="outlined"
-          defaultValue="1500"
-          inputProps={{ maxLength: undefined }}
-          onChange={handleChange("emergency_shutoff_temp")}
-        />
-<FormControlLabel
-  key={`field-${oven.id}-kiln_must_catch_up`}
-  name="kiln_must_catch_up"
-  control={
-    <Checkbox
-      name="kiln_must_catch_up"
-      color="primary"
-      checked={oven.kiln_must_catch_up === 1} // This checks if the value is 1 (checked)
-      onChange={handleChange("kiln_must_catch_up")}
-    />
-  }
-  label="Kiln_must_catch_up"
-/>
-
-        <TextField
-          key={`field-${{ oven }.id}-thermocouple_offset`}
-          margin="dense"
-          name="thermocouple_offset"
-          value={oven.thermocouple_offset}
-          label="Thermocouple_offset"
-          type="number"
-          fullWidth
-          variant="outlined"
-          defaultValue="0"
-          inputProps={{ maxLength: undefined }}
-          onChange={handleChange("thermocouple_offset")}
-        />
-
-        <FormControlLabel
-          key={`field-${{ oven }.id}-ac_freq_50hz`}
-          name="ac_freq_50hz"
-          control={<Checkbox name={oven.ac_freq_50hz} color="primary" checked={oven.ac_freq_50hz === 1}/>}
-          label="Ac_freq_50hz"
-          onChange={handleChange("ac_freq_50hz")}
-        />
-
-        <FormControlLabel
-          key={`field-${{ oven }.id}-automatic_restarts`}
-          name="automatic_restarts"
-          control={
-            <Checkbox
-              name={oven.automatic_restarts}
-              color="primary"
-              checked={oven.automatic_restarts === 1}
-              onChange={handleChange("automatic_restarts")}
+        <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControlLabel
+              key={`field-${oven.id}-kiln_must_catch_up`}
+              name="kiln_must_catch_up"
+              control={
+                <Checkbox
+                  name="kiln_must_catch_up"
+                  color="primary"
+                  checked={oven.kiln_must_catch_up === 1} // This checks if the value is 1 (checked)
+                  onChange={handleChange("kiln_must_catch_up")}
+                />
+              }
+              label="Kiln_must_catch_up"
             />
-          }
-          label="Automatic_restarts"
-        />
-
-        <TextField
-          key={`field-${{ oven }.id}-automatic_restart_window`}
-          margin="dense"
-          name="automatic_restart_window"
-          value={oven.automatic_restart_window}
-          label="Automatic_restart_window"
-          type="number"
-          fullWidth
-          variant="outlined"
-          defaultValue="15"
-          inputProps={{ maxLength: undefined }}
-          onChange={handleChange("automatic_restart_window")}
-        />
+          </Grid>
+          <Grid item xs={12} sm={6}  md={4} lg={2}>
+            <TextField
+              key={`field-${{ oven }.id}-temp_scale`}
+              margin="dense"
+              name="temp_scale"
+              value={oven.temp_scale}
+              label="Temp_scale"
+              type="text"
+              fullWidth
+              variant="outlined"
+              inputProps={{ maxLength: 1 }}
+              onChange={handleChange("temp_scale")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}  md={4} lg={2}>
+            <TextField
+              key={`field-${{ oven }.id}-emergency_shutoff_temp`}
+              margin="dense"
+              name="emergency_shutoff_temp"
+              value={oven.emergency_shutoff_temp}
+              label="Emergency_shutoff_temp"
+              type="number"
+              fullWidth
+              variant="outlined"
+              inputProps={{ maxLength: undefined }}
+              onChange={handleChange("emergency_shutoff_temp")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}  md={4} lg={2}>
+            <TextField
+              key={`field-${{ oven }.id}-thermocouple_offset`}
+              margin="dense"
+              name="thermocouple_offset"
+              value={oven.thermocouple_offset}
+              label="Thermocouple_offset"
+              type="number"
+              fullWidth
+              variant="outlined"
+              defaultValue="0"
+              inputProps={{ maxLength: undefined }}
+              onChange={handleChange("thermocouple_offset")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}  md={4} lg={2}>
+            <FormControlLabel
+              key={`field-${{ oven }.id}-ac_freq_50hz`}
+              name="ac_freq_50hz"
+              control={
+                <Checkbox
+                  name={oven.ac_freq_50hz}
+                  color="primary"
+                  checked={oven.ac_freq_50hz === 1}
+                />
+              }
+              label="Ac_freq_50hz"
+              onChange={handleChange("ac_freq_50hz")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}  md={4} lg={2}>
+            <FormControlLabel
+              key={`field-${{ oven }.id}-automatic_restarts`}
+              name="automatic_restarts"
+              control={
+                <Checkbox
+                  name={oven.automatic_restarts}
+                  color="primary"
+                  checked={oven.automatic_restarts === 1}
+                  onChange={handleChange("automatic_restarts")}
+                />
+              }
+              label="Automatic_restarts"
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}  md={4} lg={2}>
+            <TextField
+              key={`field-${{ oven }.id}-automatic_restart_window`}
+              margin="dense"
+              name="automatic_restart_window"
+              value={oven.automatic_restart_window}
+              label="Automatic_restart_window"
+              type="number"
+              fullWidth
+              variant="outlined"
+              inputProps={{ maxLength: undefined }}
+              onChange={handleChange("automatic_restart_window")}
+            />{" "}
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <EditableHelpText field="misc_help" />
+          </Grid>
+        </Grid>
       </Paper>
 
       {showSaveButton && (
